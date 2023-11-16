@@ -1,4 +1,5 @@
 const Product = require('../models/productModel');
+const apiFeatures = require('../utils/apiFeatures');
 
 
 
@@ -14,7 +15,8 @@ exports.createProduct=async(req, res)=>{
 
 //get all product
 exports.getAllProducts=async(req, res)=>{
-    const product = await Product.find();
+    const apiFeature = new apiFeatures(Product.find(),req.query).search().filter()
+    const product = await apiFeature.query;
     res.status(200).json({
         success:true,
         product

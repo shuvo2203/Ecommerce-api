@@ -6,25 +6,28 @@ class apiFeatures{
     search(){
         const keyword = this.queryStr.keyword ? {
             name:{
-                $regex : this.queryStr.keyword,
-                $options : "i"
+                $regex:this.query.keyword,
+                $options:"i"
             }
         } : {}
         this.query = this.query.find({...keyword});
-        return this;
     }
     filter(){
         const queryCopy = {...this.queryStr}
         //removing some fields for category
         const removeFields = ["keyword","page","limit"];
-        //filter for price and rating
-        let queryStr = JSON.stringify(queryCopy);
-        queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g,key=>`$${key}`);
-
         removeFields.forEach(key=>delete queryCopy[key]);
-        this.query = this.query.find(JSON.parse(queryStr));
+        this.query = this.query.find(queryCopy);
         return this;
     }
 }
-
 module.exports = apiFeatures;
+
+
+
+
+//product controller
+exports.getAllProducts=async(req, res)=>{
+    const apiFeature = new apiFeatures(Product.fond(),req.query).search().filter()
+    const proudct = await apiFeature.query;
+}
