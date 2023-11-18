@@ -20,6 +20,12 @@ class apiFeatures{
         this.query = this.query.find(queryCopy);
         return this;
     }
+    pagination(resultPerPage){
+        const curentPage = this.queryStr.page;
+        const skip = resultPerPage * (curentPage - 1);
+        this.query = this.query.limit(resultPerPage).skip(skip);
+        return this;
+    }
 }
 module.exports = apiFeatures;
 

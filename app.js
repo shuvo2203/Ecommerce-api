@@ -10,9 +10,11 @@ const PORT = process.env.PORT;
 app.use(express.json());
 
 const product = require('./routes/productRoute');
+const user = require('./routes/userRoute');
 
 
 app.use('/api/v1', product);
+app.use('/api/v1', user);
 
 
 app.listen(PORT,()=>{
